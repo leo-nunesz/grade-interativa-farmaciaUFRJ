@@ -24,6 +24,16 @@ button.action,.search{height:38px;border:1px solid var(--line);border-radius:9px
 .search{min-width:260px;flex:1;outline:none}
 .search:focus{border-color:#8db8df;box-shadow:0 0 0 3px rgba(23,105,170,.1)}
 .legend{font-size:12px;color:var(--muted);margin-left:auto}
+.shared-banner{
+  max-width:1800px;margin:14px auto 0;padding:12px 16px;border-radius:12px;
+  background:#eef6ff;border:1px solid #b8d7f2;display:flex;gap:14px;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;font-size:13px
+}
+.shared-banner-text{color:#0f3a5f}
+.shared-banner-actions{display:flex;gap:8px;flex-wrap:wrap}
+.shared-banner-actions .action{height:34px;font-size:12px}
+.shared-banner-actions .action.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+@media(max-width:700px){.shared-banner{margin:14px 10px 0}}
 main{max-width:1800px;margin:22px auto;padding:0 18px 36px}
 .grid{display:grid;grid-template-columns:repeat(10,minmax(150px,1fr));gap:10px;align-items:start}
 .period{min-width:0}
@@ -171,6 +181,455 @@ main{max-width:1800px;margin:22px auto;padding:0 18px 36px}
   }
 </style>
 
+
+<style id="graduation-planner-style">
+  .graduation-planner {
+    margin-top: 28px;
+    margin-bottom: 24px;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--card);
+    box-shadow: 0 2px 8px rgba(0,0,0,.04);
+  }
+
+  .planner-header {
+    margin-bottom: 14px;
+  }
+
+  .planner-title {
+    display: inline-block;
+    background: #374151;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .planner-subtitle {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .planner-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 14px 0;
+    flex-wrap: wrap;
+  }
+
+  .planner-controls label {
+    font-size: 13px;
+    font-weight: 650;
+  }
+
+  .semester-select {
+    height: 40px;
+    min-width: 150px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: #fff;
+    color: var(--text);
+    padding: 0 12px;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .semester-select:focus {
+    outline: none;
+    border-color: #8db8df;
+    box-shadow: 0 0 0 3px rgba(23,105,170,.1);
+  }
+
+  .planner-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .planner-stat {
+    min-height: 105px;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .planner-stat.highlight {
+    border-color: #a8d8bf;
+    background: var(--green-bg);
+  }
+
+  .planner-stat-label {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 650;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+  }
+
+  .planner-stat strong {
+    margin-top: 4px;
+    font-size: 27px;
+    line-height: 1.1;
+  }
+
+  .planner-stat-note {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.3;
+  }
+
+  .planner-message {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 700px) {
+    .graduation-planner {
+      padding: 14px;
+    }
+
+    .planner-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .planner-controls {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .semester-select {
+      width: 100%;
+    }
+  }
+</style>
+
+
+<style id="planner-message-empty">
+  #plannerMessage:empty { display: none; }
+</style>
+
+
+<style id="progress-dashboard-style">
+  .progress-dashboard {
+    margin: 28px 0 24px;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--card);
+  }
+
+  .progress-dashboard-title {
+    display: inline-block;
+    background: #374151;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .progress-dashboard-subtitle {
+    margin: 8px 0 15px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .progress-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .progress-card {
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    background: #f8fafc;
+  }
+
+  .progress-card-label {
+    font-size: 12px;
+    font-weight: 650;
+    margin-bottom: 10px;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 14px;
+    border-radius: 999px;
+    background: #e5e7eb;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: inherit;
+    background: #4b8b62;
+    transition: width .35s ease;
+  }
+
+  .progress-card-values {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .progress-card-values strong {
+    font-size: 13px;
+  }
+
+  .progress-card-values span {
+    font-size: 12px;
+    font-weight: 700;
+    color: #4b8b62;
+  }
+
+  .progress-breakdown {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .progress-breakdown > div {
+    padding: 11px 12px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: white;
+  }
+
+  .progress-breakdown span {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+  }
+
+  .progress-breakdown strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 16px;
+  }
+
+  @media (max-width: 700px) {
+    .progress-cards,
+    .progress-breakdown {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+
+<style id="critical-path-style">
+  .critical-path-section {
+    margin: 18px 0 28px;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--card);
+  }
+
+  .critical-path-title {
+    display: inline-block;
+    background: #374151;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .critical-path-subtitle {
+    margin: 8px 0 14px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .critical-path-summary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .critical-path-summary-card {
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #f8fafc;
+  }
+
+  .critical-path-summary-card span {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+  }
+
+  .critical-path-summary-card strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 18px;
+  }
+
+  .critical-path-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .critical-path-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: center;
+    padding: 11px 13px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+  }
+
+  .critical-path-name {
+    font-weight: 700;
+    font-size: 12px;
+  }
+
+  .critical-path-code {
+    margin-left: 5px;
+    color: var(--muted);
+    font-weight: 500;
+    font-size: 10px;
+  }
+
+  .critical-path-unlocks {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.4;
+  }
+
+  .critical-path-impact {
+    min-width: 80px;
+    text-align: center;
+    padding: 7px 9px;
+    border-radius: 9px;
+    background: #eef6f0;
+    color: #2f6b45;
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  .critical-path-empty {
+    padding: 14px;
+    border: 1px dashed var(--line);
+    border-radius: 10px;
+    color: var(--muted);
+    font-size: 11px;
+    text-align: center;
+  }
+
+  @media (max-width: 700px) {
+    .critical-path-summary {
+      grid-template-columns: 1fr;
+    }
+
+    .critical-path-item {
+      grid-template-columns: 1fr;
+    }
+
+    .critical-path-impact {
+      width: fit-content;
+    }
+  }
+</style>
+
+
+<style id="course-planning-style">
+  .course-plan-badge{
+    position:absolute;left:8px;top:7px;padding:3px 7px;border-radius:999px;
+    background:#eef4fb;color:#1769aa;font-size:9px;font-weight:750;line-height:1.2;
+    max-width:calc(100% - 38px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .course.has-plan .code{padding-top:18px}
+  .course-edit{
+    position:absolute;right:7px;top:7px;width:24px;height:24px;border:1px solid var(--line);
+    border-radius:7px;background:#fff;color:#4b5563;display:flex;align-items:center;
+    justify-content:center;font-size:13px;cursor:pointer;z-index:3;
+  }
+  .course-edit:hover{background:#f3f6f9;color:var(--blue)}
+  .course.done .course-edit{background:#fff}
+  .course-meta-note{margin-top:5px;font-size:9px;color:#66727f;display:flex;gap:5px;align-items:center}
+  .course-meta-note .stars{letter-spacing:-1px;color:#4b5563}
+  .planning-summary{
+    margin-top:22px;padding:18px;border:1px solid var(--line);border-radius:14px;
+    background:var(--card);box-shadow:0 2px 8px rgba(0,0,0,.04)
+  }
+  .planning-summary-title{
+    display:inline-block;background:#374151;color:#fff;border-radius:10px;padding:10px 14px;
+    font-weight:700;font-size:14px
+  }
+  .planning-summary-subtitle{margin:8px 0 14px;color:var(--muted);font-size:12px}
+  .planning-semesters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+  .planning-semester{
+    border:1px solid var(--line);border-radius:10px;background:#f8fafc;padding:10px;
+    min-height:80px
+  }
+  .planning-semester h4{margin:0 0 7px;font-size:11px}
+  .planning-semester ul{margin:0;padding-left:16px;font-size:10px;color:#4b5563;line-height:1.45}
+  .planning-empty{color:var(--muted);font-size:10px}
+  .course-modal-backdrop{
+    position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;align-items:center;
+    justify-content:center;padding:18px;z-index:1000
+  }
+  .course-modal-backdrop.open{display:flex}
+  .course-modal{
+    width:min(560px,100%);max-height:min(720px,calc(100vh - 36px));overflow:auto;
+    background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.2);padding:20px
+  }
+  .course-modal-header{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+  .course-modal-title{font-size:18px;font-weight:750;margin:0}
+  .course-modal-code{font-size:11px;color:var(--muted);margin-top:4px}
+  .modal-close{border:1px solid var(--line);background:#fff;border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:18px}
+  .course-modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+  .course-modal-field{display:flex;flex-direction:column;gap:6px}
+  .course-modal-field.full{grid-column:1/-1}
+  .course-modal-field label{font-size:11px;font-weight:700;color:#4b5563}
+  .course-modal-field input,.course-modal-field select,.course-modal-field textarea{
+    width:100%;border:1px solid var(--line);border-radius:9px;padding:9px 10px;font:inherit;
+    color:var(--text);background:#fff
+  }
+  .course-modal-field textarea{min-height:130px;resize:vertical}
+  .difficulty-row{display:flex;gap:6px}
+  .difficulty-row button{
+    width:38px;height:34px;border:1px solid var(--line);background:#fff;border-radius:8px;
+    cursor:pointer;font-weight:700;color:#66727f
+  }
+  .difficulty-row button.selected{background:#eef6f0;border-color:#75d4a5;color:#2f6b45}
+  .course-modal-actions{display:flex;justify-content:space-between;gap:8px;margin-top:18px}
+  .course-modal-actions button{height:38px;border:1px solid var(--line);border-radius:9px;background:#fff;padding:0 13px;font:inherit;cursor:pointer}
+  .course-modal-actions .primary{background:#1769aa;border-color:#1769aa;color:#fff}
+  .course-modal-actions .danger{color:#c0392b}
+  @media(max-width:1000px){.planning-semesters{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media(max-width:700px){
+    .planning-semesters{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .course-modal-grid{grid-template-columns:1fr}
+    .course-modal-field.full{grid-column:auto}
+  }
+</style>
+
 </head>
 <body>
 <header>
@@ -190,9 +649,48 @@ main{max-width:1800px;margin:22px auto;padding:0 18px 36px}
     <input id="search" class="search" type="search" placeholder="Buscar disciplina ou código...">
     <button class="action" id="clear" type="button">Limpar marcações</button>
     <button class="action" id="all" type="button">Marcar todas</button>
+    <button class="action" id="shareBtn" type="button">🔗 Compartilhar</button>
     <span class="legend">✓ pode fazer · 🔒 pré-requisito pendente · correquisitos podem ser cursados junto. A porcentagem considera somente matérias + eletivas (2790 h). Estágios, TCC, Atividades Complementares e Extensão ficam fora; eletivas entram.</span>
   </div>
 </header>
+
+<div id="sharedBanner" class="shared-banner" style="display:none">
+  <div class="shared-banner-text">
+    Você está vendo um planejamento compartilhado<span id="sharedBannerName"></span>. Nada foi salvo ainda no seu navegador.
+  </div>
+  <div class="shared-banner-actions">
+    <button id="sharedImportBtn" class="action primary" type="button">Salvar este planejamento no meu navegador</button>
+    <button id="sharedDismissBtn" class="action" type="button">Voltar para o meu planejamento</button>
+  </div>
+</div>
+
+<div id="shareModalBackdrop" class="course-modal-backdrop" aria-hidden="true">
+  <div class="course-modal" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle" style="width:min(560px,100%)">
+    <div class="course-modal-header">
+      <div>
+        <h2 id="shareModalTitle" class="course-modal-title">Compartilhar planejamento</h2>
+        <div class="course-modal-code">Gera um link com uma cópia do seu progresso atual (concluídas, planejamento por período, anotações e notas).</div>
+      </div>
+      <button id="shareModalClose" class="modal-close" type="button" aria-label="Fechar">×</button>
+    </div>
+    <div class="course-modal-grid">
+      <div class="course-modal-field full">
+        <label for="shareNameInput">Seu nome (opcional, aparece pra quem abrir o link)</label>
+        <input id="shareNameInput" type="text" placeholder="Ex.: Ana">
+      </div>
+      <div class="course-modal-field full">
+        <label for="shareLinkOutput">Link para compartilhar</label>
+        <input id="shareLinkOutput" type="text" readonly>
+      </div>
+    </div>
+    <div class="course-modal-actions">
+      <div class="planner-message" id="shareModalNote" style="margin:0">Quem abrir o link poderá visualizar e, se quiser, salvar essa versão no próprio navegador. Isso não altera o seu planejamento.</div>
+      <div style="display:flex;gap:8px">
+        <button id="shareCopyBtn" class="primary" type="button">Copiar link</button>
+      </div>
+    </div>
+  </div>
+</div>
 <main>
   <div class="grid"><section class="period">
         <div class="period-title">1º Período</div>
@@ -580,6 +1078,103 @@ main{max-width:1800px;margin:22px auto;padding:0 18px 36px}
       <div class="requirements">Requisito varia conforme a opção de estágio.</div>
     </button></div>
   </section>
+
+<section class="graduation-planner" id="graduationPlanner">
+  <div class="planner-header">
+    <div>
+      <div class="planner-title">Planejamento até a formatura</div>
+      <div class="planner-subtitle">
+        Selecione o semestre em que pretende se formar para calcular a média de créditos
+        que ainda precisam ser feitos por período.
+      </div>
+    </div>
+  </div>
+
+  <div class="planner-controls">
+    <label for="graduationSemester">Semestre de formatura</label>
+    <select id="graduationSemester" class="semester-select" aria-label="Semestre de formatura"></select>
+  </div>
+
+  <div class="planner-stats">
+    <div class="planner-stat">
+      <span class="planner-stat-label">Créditos faltantes</span>
+      <strong id="plannerRemainingCredits">0</strong>
+      <span class="planner-stat-note">considerando as matérias e estágios ainda não concluídos</span>
+    </div>
+    <div class="planner-stat">
+      <span class="planner-stat-label">Períodos disponíveis</span>
+      <strong id="plannerPeriods">0</strong>
+      <span class="planner-stat-note" id="plannerPeriodRange">—</span>
+    </div>
+    <div class="planner-stat highlight">
+      <span class="planner-stat-label">Créditos por período</span>
+      <strong id="plannerCreditsPerPeriod">—</strong>
+      <span class="planner-stat-note">média necessária até a formatura</span>
+    </div>
+  </div>
+
+  <div class="planner-message" id="plannerMessage"></div>
+</section>
+
+<section class="critical-path-section" id="criticalPathSection">
+  <div class="critical-path-title">O que puxar?</div>
+  <div class="critical-path-subtitle">
+    Mostra apenas as disciplinas obrigatórias que você já pode fazer.
+  </div>
+
+  <div class="critical-path-summary">
+    <div class="critical-path-summary-card">
+      <span>Posso fazer</span>
+      <strong id="criticalPathCount">0</strong>
+    </div>
+    <div class="critical-path-summary-card">
+      <span>Maior impacto</span>
+      <strong id="criticalPathTop">—</strong>
+    </div>
+  </div>
+
+  <div id="criticalPathList" class="critical-path-list"></div>
+</section>
+
+
+<section class="progress-dashboard" id="progressDashboard">
+  <div class="progress-dashboard-title">Progresso do curso</div>
+  <div class="progress-dashboard-subtitle">Acompanhe sua evolução em horas e créditos.</div>
+
+  <div class="progress-cards">
+    <div class="progress-card">
+      <div class="progress-card-label">Horas das disciplinas</div>
+      <div class="progress-bar"><div id="hoursProgressBar" class="progress-bar-fill"></div></div>
+      <div class="progress-card-values">
+        <strong id="hoursProgressText">0 / 0 h</strong>
+        <span id="hoursProgressPercent">0%</span>
+      </div>
+    </div>
+
+    <div class="progress-card">
+      <div class="progress-card-label">Créditos das disciplinas</div>
+      <div class="progress-bar"><div id="creditsProgressBar" class="progress-bar-fill"></div></div>
+      <div class="progress-card-values">
+        <strong id="creditsProgressText">0 / 0 cr</strong>
+        <span id="creditsProgressPercent">0%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-breakdown">
+    <div><span>Horas concluídas</span><strong id="completedHoursValue">0 h</strong></div>
+    <div><span>Horas restantes</span><strong id="remainingHoursValue">0 h</strong></div>
+    <div><span>Créditos concluídos</span><strong id="completedCreditsValue">0</strong></div>
+    <div><span>Créditos restantes</span><strong id="remainingCreditsValue">0</strong></div>
+  </div>
+</section>
+
+<section class="planning-summary" id="planningSummary">
+  <div class="planning-summary-title">Planejamento das matérias</div>
+  <div class="planning-summary-subtitle">Organize em qual período pretende cursar cada matéria. O planejamento é independente da marcação de matéria concluída.</div>
+  <div id="planningSemesters" class="planning-semesters"></div>
+</section>
+
 </main>
 <script>
 const courses = [{"id": "1-BMW103", "period": 1, "code": "BMW103", "name": "Bases Morfológicas", "hours": 105, "credits": 6, "special": ""}, {"id": "1-BQM101", "period": 1, "code": "BQM101", "name": "Bioquímica I", "hours": 45, "credits": 3, "special": ""}, {"id": "1-FFW111", "period": 1, "code": "FFW111", "name": "Farmacêutico e Sociedade", "hours": 30, "credits": 2, "special": ""}, {"id": "1-FFWZ50", "period": 1, "code": "FFWZ50", "name": "Extensão", "hours": 415, "credits": 0, "special": "extension"}, {"id": "1-IQG114", "period": 1, "code": "IQG114", "name": "Química Geral I", "hours": 60, "credits": 4, "special": ""}, {"id": "1-MAC108", "period": 1, "code": "MAC108", "name": "Cálculo para Farmácia", "hours": 45, "credits": 3, "special": ""}, {"id": "2-BQM103", "period": 2, "code": "BQM103", "name": "Bioquímica II", "hours": 45, "credits": 3, "special": ""}, {"id": "2-CFF122", "period": 2, "code": "CFF122", "name": "Fisiologia Humana", "hours": 90, "credits": 6, "special": ""}, {"id": "2-FFW121", "period": 2, "code": "FFW121", "name": "Políticas e Plan. em Saúde Pub.", "hours": 30, "credits": 2, "special": ""}, {"id": "2-IQF235", "period": 2, "code": "IQF235", "name": "Fisqui I", "hours": 30, "credits": 2, "special": ""}, {"id": "2-IQG122", "period": 2, "code": "IQG122", "name": "Química Inorg. Estrutural", "hours": 30, "credits": 2, "special": ""}, {"id": "2-IQO120", "period": 2, "code": "IQO120", "name": "Química Orgânica I", "hours": 60, "credits": 4, "special": ""}, {"id": "3-BMF310", "period": 3, "code": "BMF310", "name": "Farmacocinética e Farmacodinâmica", "hours": 60, "credits": 4, "special": ""}, {"id": "3-FFW231", "period": 3, "code": "FFW231", "name": "Farmácia Clínica", "hours": 30, "credits": 2, "special": ""}, {"id": "3-FFW232", "period": 3, "code": "FFW232", "name": "Diagnóstico Lab. C. Farm.", "hours": 30, "credits": 2, "special": ""}, {"id": "3-IQA123", "period": 3, "code": "IQA123", "name": "Química Analítica I", "hours": 30, "credits": 2, "special": ""}, {"id": "3-IQF232", "period": 3, "code": "IQF232", "name": "Fisqui II", "hours": 30, "credits": 2, "special": ""}, {"id": "3-IQO220", "period": 3, "code": "IQO220", "name": "Métodos Espectrométricos", "hours": 60, "credits": 3, "special": ""}, {"id": "3-IQO230", "period": 3, "code": "IQO230", "name": "Química Orgânica II", "hours": 60, "credits": 4, "special": ""}, {"id": "4-FFW241", "period": 4, "code": "FFW241", "name": "PCQ I (Operações)", "hours": 60, "credits": 3, "special": ""}, {"id": "4-FFW242", "period": 4, "code": "FFW242", "name": "QFM I", "hours": 30, "credits": 2, "special": ""}, {"id": "4-FFW243", "period": 4, "code": "FFW243", "name": "MACF", "hours": 30, "credits": 1, "special": ""}, {"id": "4-FFW353", "period": 4, "code": "FFW353", "name": "Gestão e Plan. da Assist. Farm.", "hours": 60, "credits": 4, "special": ""}, {"id": "4-IQA233", "period": 4, "code": "IQA233", "name": "Química Analítica Farm II", "hours": 30, "credits": 2, "special": ""}, {"id": "4-IQA240", "period": 4, "code": "IQA240", "name": "Química Analítica EXP", "hours": 30, "credits": 1, "special": ""}, {"id": "4-IQG241", "period": 4, "code": "IQG241", "name": "Química de Coordenações", "hours": 30, "credits": 2, "special": ""}, {"id": "4-IQO242", "period": 4, "code": "IQO242", "name": "Química Orgânica EXP", "hours": 60, "credits": 2, "special": ""}, {"id": "5-FFW351", "period": 5, "code": "FFW351", "name": "Toxicologia Geral", "hours": 30, "credits": 2, "special": ""}, {"id": "5-FFW352", "period": 5, "code": "FFW352", "name": "QFM II T", "hours": 30, "credits": 2, "special": ""}, {"id": "5-FFW354", "period": 5, "code": "FFW354", "name": "PCQ II (Sólidos)", "hours": 60, "credits": 4, "special": ""}, {"id": "5-FFW355", "period": 5, "code": "FFW355", "name": "Hematologia", "hours": 30, "credits": 2, "special": ""}, {"id": "5-IMW360", "period": 5, "code": "IMW360", "name": "Micro Imuno Fundamental", "hours": 90, "credits": 5, "special": ""}, {"id": "6-FFW361", "period": 6, "code": "FFW361", "name": "CIF I (Ag. Infecciosos)", "hours": 90, "credits": 5, "special": ""}, {"id": "6-FFW362", "period": 6, "code": "FFW362", "name": "CIF 2 (Imunologia)", "hours": 60, "credits": 4, "special": ""}, {"id": "6-FFW363", "period": 6, "code": "FFW363", "name": "Farmacobotânica", "hours": 30, "credits": 1, "special": ""}, {"id": "6-FFW364", "period": 6, "code": "FFW364", "name": "PCQ III (Líquidos)", "hours": 30, "credits": 2, "special": ""}, {"id": "6-FFW365", "period": 6, "code": "FFW365", "name": "QFM II T", "hours": 45, "credits": 3, "special": ""}, {"id": "7-FFW471", "period": 7, "code": "FFW471", "name": "CIF III (Cardio / Renal)", "hours": 90, "credits": 6, "special": ""}, {"id": "7-FFW472", "period": 7, "code": "FFW472", "name": "CIF IV (Endócrino)", "hours": 60, "credits": 4, "special": ""}, {"id": "7-FFW473", "period": 7, "code": "FFW473", "name": "Farmacognosia", "hours": 90, "credits": 4, "special": ""}, {"id": "7-FFW474", "period": 7, "code": "FFW474", "name": "PCQ IV (Sólidos e Líquidos)", "hours": 60, "credits": 2, "special": ""}, {"id": "8-FFW481", "period": 8, "code": "FFW481", "name": "CIF V (Neurologia)", "hours": 75, "credits": 4, "special": ""}, {"id": "8-FFW482", "period": 8, "code": "FFW482", "name": "Farmacoepidemio. e Bioestatística", "hours": 45, "credits": 3, "special": ""}, {"id": "8-FFW483", "period": 8, "code": "FFW483", "name": "PCQF V (Cosméticos - T)", "hours": 30, "credits": 2, "special": ""}, {"id": "8-FFW484", "period": 8, "code": "FFW484", "name": "Genética e Biomol. Farmacêutica", "hours": 30, "credits": 2, "special": ""}, {"id": "8-FFW485", "period": 8, "code": "FFW485", "name": "PCQ VIII (Biotec)", "hours": 30, "credits": 2, "special": ""}, {"id": "8-FFW486", "period": 8, "code": "FFW486", "name": "Metodologia Científica", "hours": 30, "credits": 2, "special": ""}, {"id": "9-FFW591", "period": 9, "code": "FFW591", "name": "CIF VI (Parasitologia)", "hours": 90, "credits": 6, "special": ""}, {"id": "9-FFW592", "period": 9, "code": "FFW592", "name": "PCQA (Alimentos)", "hours": 60, "credits": 3, "special": ""}, {"id": "9-FFW593", "period": 9, "code": "FFW593", "name": "PCQF VI (Cosméticos - P)", "hours": 30, "credits": 1, "special": ""}, {"id": "9-FFWK03", "period": 9, "code": "FFWK03", "name": "TCC", "hours": 45, "credits": 1, "special": "tcc"}, {"id": "9-IEE326", "period": 9, "code": "IEE326", "name": "Econ. e Adm. de Empresas", "hours": 45, "credits": 3, "special": ""}, {"id": "10-ATIV", "period": 10, "code": "ATIV", "name": "Atividades Complementares", "hours": 60, "credits": 2, "special": "activities"}, {"id": "10-ELETIVAS", "period": 10, "code": "ELETIVAS", "name": "Escolha Cond. (Eletivas)", "hours": 180, "credits": 12, "special": ""}, {"id": "10-FFW501", "period": 10, "code": "FFW501", "name": "Farmacoterapia do Cuidado Farm.", "hours": 60, "credits": 3, "special": ""}, {"id": "10-FFW502", "period": 10, "code": "FFW502", "name": "CIF VII (Oncologia)", "hours": 60, "credits": 4, "special": ""}, {"id": "10-FFW503", "period": 10, "code": "FFW503", "name": "PCQF VII (Fitoterápicos)", "hours": 30, "credits": 2, "special": ""}];
@@ -596,6 +1191,9 @@ let done = new Set(saved.done || []);
 let extensionHours = Number.isFinite(saved.extensionHours) ? saved.extensionHours : 0;
 let electiveHours = Number.isFinite(saved.electiveHours) ? saved.electiveHours : 0;
 let activityHours = Number.isFinite(saved.activityHours) ? saved.activityHours : 0;
+let coursePlans = saved.coursePlans && typeof saved.coursePlans === "object" ? saved.coursePlans : {};
+let courseNotes = saved.courseNotes && typeof saved.courseNotes === "object" ? saved.courseNotes : {};
+let isViewingSharedLink = false;
 
 if (!saved.done) {
   for (const k of oldKeys) {
@@ -615,10 +1213,75 @@ if (!saved.done) {
 }
 
 function save() {
+  if (isViewingSharedLink) return;
   localStorage.setItem(storageKey, JSON.stringify({
-    done:[...done], extensionHours, electiveHours, activityHours
+    done:[...done], extensionHours, electiveHours, activityHours, coursePlans, courseNotes
   }));
 }
+
+function encodeShareData(data) {
+  const json = JSON.stringify(data);
+  const bytes = new TextEncoder().encode(json);
+  let binary = "";
+  bytes.forEach(b => binary += String.fromCharCode(b));
+  return btoa(binary);
+}
+
+function decodeShareData(encoded) {
+  const binary = atob(encoded);
+  const bytes = Uint8Array.from(binary, ch => ch.charCodeAt(0));
+  const json = new TextDecoder().decode(bytes);
+  return JSON.parse(json);
+}
+
+function buildShareLink(name) {
+  const payload = {
+    v: 1,
+    name: (name || "").trim(),
+    done: [...done],
+    extensionHours, electiveHours, activityHours,
+    coursePlans, courseNotes
+  };
+  const encoded = encodeShareData(payload);
+  const url = new URL(location.href);
+  url.hash = "shared=" + encoded;
+  return url.toString();
+}
+
+function applySharedData(payload) {
+  done = new Set(payload.done || []);
+  extensionHours = Number.isFinite(payload.extensionHours) ? payload.extensionHours : 0;
+  electiveHours = Number.isFinite(payload.electiveHours) ? payload.electiveHours : 0;
+  activityHours = Number.isFinite(payload.activityHours) ? payload.activityHours : 0;
+  coursePlans = payload.coursePlans && typeof payload.coursePlans === "object" ? payload.coursePlans : {};
+  courseNotes = payload.courseNotes && typeof payload.courseNotes === "object" ? payload.courseNotes : {};
+}
+
+function loadSharedFromHash() {
+  const hash = location.hash || "";
+  const match = hash.match(/shared=([^&]+)/);
+  if (!match) return false;
+  try {
+    const payload = decodeShareData(decodeURIComponent(match[1]));
+    applySharedData(payload);
+    isViewingSharedLink = true;
+    const banner = document.getElementById("sharedBanner");
+    const nameSpan = document.getElementById("sharedBannerName");
+    nameSpan.textContent = payload.name ? " por " + payload.name : "";
+    banner.style.display = "flex";
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function clearShareHash() {
+  const url = new URL(location.href);
+  url.hash = "";
+  history.replaceState(null, "", url.toString().replace(/#$/, ""));
+}
+
+const sharedLinkLoaded = loadSharedFromHash();
 
 function courseIdForCode(code) {
   const found = courses.find(c => c.code === code);
@@ -671,6 +1334,59 @@ function render() {
     const isDone=done.has(card.dataset.id);
     card.classList.toggle("done",isDone);
     card.toggleAttribute("data-done", isDone);
+
+    // Controles de planejamento e anotações.
+    let edit = card.querySelector(".course-edit");
+    if (!edit) {
+      edit = document.createElement("span");
+      edit.className = "course-edit";
+      edit.setAttribute("role","button");
+      edit.setAttribute("tabindex","0");
+      edit.setAttribute("aria-label","Planejar ou adicionar anotações");
+      edit.textContent = "⋯";
+      edit.addEventListener("click", e => {
+        e.preventDefault();
+        e.stopPropagation();
+        openCourseModal(course.id);
+      });
+      edit.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          e.stopPropagation();
+          openCourseModal(course.id);
+        }
+      });
+      card.appendChild(edit);
+    }
+    let planBadge = card.querySelector(".course-plan-badge");
+    const plan = coursePlans[course.id];
+    if (plan && plan.semester) {
+      if (!planBadge) {
+        planBadge = document.createElement("span");
+        planBadge.className = "course-plan-badge";
+        card.appendChild(planBadge);
+      }
+      planBadge.textContent = "Planejada: " + plan.semester;
+      card.classList.add("has-plan");
+    } else {
+      if (planBadge) planBadge.remove();
+      card.classList.remove("has-plan");
+    }
+    let noteNode = card.querySelector(".course-meta-note");
+    const note = courseNotes[course.id];
+    if (note && (note.professor || note.difficulty)) {
+      if (!noteNode) {
+        noteNode = document.createElement("div");
+        noteNode.className = "course-meta-note";
+        card.appendChild(noteNode);
+      }
+      const stars = note.difficulty ? "★".repeat(Number(note.difficulty)) + "☆".repeat(5-Number(note.difficulty)) : "";
+      noteNode.innerHTML = (note.professor ? "Prof.: " + escapeHtml(note.professor) : "") +
+        (note.professor && stars ? " · " : "") +
+        (stars ? '<span class="stars" aria-label="Dificuldade '+note.difficulty+' de 5">'+stars+"</span>" : "");
+    } else if (noteNode) {
+      noteNode.remove();
+    }
     card.setAttribute("aria-pressed",isDone?"true":"false");
     if (!isDone) {
       const status=statusForReq(prerequisites[course.code]);
@@ -728,6 +1444,9 @@ function render() {
   document.getElementById("extensionSummary").textContent=extensionHours+" / 415 h";
   document.getElementById("electiveHours").textContent=electiveHours;
   document.getElementById("activityHours").textContent=activityHours;
+  if (window.updateGraduationPlanner) window.updateGraduationPlanner();
+  if (window.updateProgressDashboard) window.updateProgressDashboard();
+  if (window.updateCriticalPath) window.updateCriticalPath();
 }
 
 function toggleCourse(card){
@@ -913,6 +1632,576 @@ render();
       highlightMissingPrerequisites(card);
     }
   }, true);
+})();
+</script>
+
+
+<script id="graduation-planner-js">
+(function () {
+  // O semestre 26.2 é tratado como o semestre atual.
+  const currentAcademicSemester = { year: 26, term: 2 };
+  const firstOption = { year: 26, term: 1 };
+  const lastOption = { year: 35, term: 2 };
+
+  function semesterIndex(year, term) {
+    return year * 2 + (term - 1);
+  }
+
+  function semesterLabel(year, term) {
+    return year + "." + term;
+  }
+
+  function populateGraduationSemesters() {
+    const select = document.getElementById("graduationSemester");
+    if (!select || select.options.length) return;
+
+    for (let year = firstOption.year; year <= lastOption.year; year++) {
+      for (let term = 1; term <= 2; term++) {
+        if (year === firstOption.year && term < firstOption.term) continue;
+        if (year === lastOption.year && term > lastOption.term) continue;
+
+        const option = document.createElement("option");
+        option.value = semesterLabel(year, term);
+        option.textContent = semesterLabel(year, term);
+        if (year === 27 && term === 2) option.selected = true;
+        select.appendChild(option);
+      }
+    }
+  }
+
+  function parseSemester(value) {
+    const match = String(value).match(/^(\d+)\.(1|2)$/);
+    return match ? { year: Number(match[1]), term: Number(match[2]) } : null;
+  }
+
+  function creditsStillMissing() {
+    // Mesma base da porcentagem: somente disciplinas obrigatórias/eletivas.
+    // Estágios, TCC, extensão e atividades complementares ficam fora.
+    const disciplineCreditsRemaining = courses
+      .filter(c => !c.special && c.special !== "extension")
+      .reduce((sum, c) => sum + (done.has(c.id) ? 0 : Number(c.credits || 0)), 0);
+
+    // Eletivas são um slider de horas; para o planejamento em créditos,
+    // usa-se a mesma unidade da grade quando houver créditos associados.
+    // O slider de eletivas representa a carga eletiva ainda não cumprida.
+    const electiveCreditsRequired = Number(window.electiveCreditsTotal || 0);
+    const electiveCreditsDone = Number(window.electiveCreditsDone || 0);
+    const electiveCreditsRemaining = Math.max(0, electiveCreditsRequired - electiveCreditsDone);
+
+    return disciplineCreditsRemaining + electiveCreditsRemaining;
+  }
+
+  function updateGraduationPlanner() {
+    const select = document.getElementById("graduationSemester");
+    if (!select) return;
+
+    const target = parseSemester(select.value);
+    const remaining = creditsStillMissing();
+
+    document.getElementById("plannerRemainingCredits").textContent =
+      remaining + (remaining === 1 ? " crédito" : " créditos");
+
+    const currentIndex = semesterIndex(currentAcademicSemester.year, currentAcademicSemester.term);
+    const targetIndex = target ? semesterIndex(target.year, target.term) : currentIndex;
+
+    // Inclui o semestre atual no cálculo. Ex.: 26.2 → 27.1 = 2 períodos.
+    const periods = targetIndex >= currentIndex ? targetIndex - currentIndex + 1 : 0;
+
+    document.getElementById("plannerPeriods").textContent =
+      periods + (periods === 1 ? " período" : " períodos");
+
+    const averageNode = document.getElementById("plannerCreditsPerPeriod");
+    const rangeNode = document.getElementById("plannerPeriodRange");
+    const messageNode = document.getElementById("plannerMessage");
+
+    if (!target) {
+      averageNode.textContent = "—";
+      rangeNode.textContent = "";
+      messageNode.textContent = "";
+      return;
+    }
+
+    if (targetIndex < currentIndex) {
+      averageNode.textContent = "—";
+      rangeNode.textContent = "semestre anterior ao atual";
+      messageNode.textContent =
+        "Selecione 26.2 ou um semestre posterior para calcular a distribuição de créditos.";
+      return;
+    }
+
+    rangeNode.textContent =
+      semesterLabel(currentAcademicSemester.year, currentAcademicSemester.term) +
+      " → " + semesterLabel(target.year, target.term);
+
+    if (remaining === 0) {
+      averageNode.textContent = "0";
+      messageNode.textContent = "Todos os créditos cadastrados na grade já estão concluídos.";
+    } else {
+      const average = remaining / periods;
+      averageNode.textContent =
+        Number.isInteger(average) ? String(average) : average.toFixed(1).replace(".", ",");
+      messageNode.textContent = "";
+    }
+  }
+
+  populateGraduationSemesters();
+
+  const select = document.getElementById("graduationSemester");
+  if (select) {
+    select.addEventListener("change", updateGraduationPlanner);
+  }
+
+  // Expõe a atualização para o render() principal da grade.
+  window.updateGraduationPlanner = updateGraduationPlanner;
+  updateGraduationPlanner();
+})();
+</script>
+
+
+<script id="graduation-planner-elective-sync">
+(function () {
+  function readElectiveValue() {
+    const input =
+      document.querySelector('#electivesSlider') ||
+      document.querySelector('#eletivasSlider') ||
+      document.querySelector('input[type="range"][data-type="electives"]');
+
+    if (!input) return { total: 0, done: 0 };
+
+    const max = Number(input.max || 0);
+    const value = Number(input.value || 0);
+
+    // A eletiva concluída é a parcela escolhida no slider.
+    // O total exigido é o máximo configurado no próprio slider.
+    return { total: max, done: value };
+  }
+
+  function sync() {
+    const v = readElectiveValue();
+    window.electiveCreditsTotal = v.total;
+    window.electiveCreditsDone = v.done;
+    if (window.updateGraduationPlanner) window.updateGraduationPlanner();
+  }
+
+  document.addEventListener('input', function (e) {
+    if (e.target && e.target.type === 'range') sync();
+  });
+
+  window.syncGraduationElectives = sync;
+  sync();
+})();
+</script>
+
+
+<script id="progress-dashboard-js">
+(function () {
+  function updateProgressDashboard() {
+    const regularCourses = courses.filter(c => !c.special && c.special !== "extension");
+
+    const totalHours = regularCourses.reduce((sum, c) => sum + Number(c.hours || 0), 0);
+    const completedHours = regularCourses.reduce((sum, c) =>
+      sum + (done.has(c.id) ? Number(c.hours || 0) : 0), 0);
+
+    const totalCredits = regularCourses.reduce((sum, c) => sum + Number(c.credits || 0), 0);
+    const completedCredits = regularCourses.reduce((sum, c) =>
+      sum + (done.has(c.id) ? Number(c.credits || 0) : 0), 0);
+
+    const remainingHours = Math.max(0, totalHours - completedHours);
+    const remainingCredits = Math.max(0, totalCredits - completedCredits);
+
+    const hoursPct = totalHours ? Math.min(100, completedHours / totalHours * 100) : 0;
+    const creditsPct = totalCredits ? Math.min(100, completedCredits / totalCredits * 100) : 0;
+
+    const setText = (id, text) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    };
+    const setWidth = (id, pct) => {
+      const el = document.getElementById(id);
+      if (el) el.style.width = pct.toFixed(1) + "%";
+    };
+
+    setWidth("hoursProgressBar", hoursPct);
+    setWidth("creditsProgressBar", creditsPct);
+
+    setText("hoursProgressText", `${completedHours} / ${totalHours} h`);
+    setText("hoursProgressPercent", `${Math.round(hoursPct)}%`);
+    setText("creditsProgressText", `${completedCredits} / ${totalCredits} cr`);
+    setText("creditsProgressPercent", `${Math.round(creditsPct)}%`);
+
+    setText("completedHoursValue", `${completedHours} h`);
+    setText("remainingHoursValue", `${remainingHours} h`);
+    setText("completedCreditsValue", completedCredits);
+    setText("remainingCreditsValue", remainingCredits);
+  }
+
+  window.updateProgressDashboard = updateProgressDashboard;
+
+  // Atualiza quando a grade for renderizada ou quando o usuário interagir.
+  document.addEventListener("click", () => setTimeout(updateProgressDashboard, 0));
+  document.addEventListener("input", () => setTimeout(updateProgressDashboard, 0));
+
+  updateProgressDashboard();
+})();
+</script>
+
+
+<script id="critical-path-js">
+(function () {
+  function getPrerequisiteCodes(course) {
+    const req = prerequisites && prerequisites[course.code];
+    if (!req) return [];
+    // P = pré-requisitos; correquisitos não entram no caminho crítico.
+    return Array.isArray(req.P) ? req.P : [];
+  }
+
+  function updateCriticalPath() {
+    const list = document.getElementById("criticalPathList");
+    const countNode = document.getElementById("criticalPathCount");
+    const topNode = document.getElementById("criticalPathTop");
+    if (!list || typeof courses === "undefined" || typeof done === "undefined") return;
+
+    // Caminho crítico considera APENAS disciplinas obrigatórias.
+    // Eletivas, extensão e atividades complementares ficam fora desta análise.
+    const requiredCourses = courses.filter(course => {
+      if (done.has(course.id)) return false;
+      if (course.special) return false;
+      if (course.elective || course.isElective || course.category === "elective") return false;
+      if (String(course.code || "").toUpperCase() === "ELETIVAS") return false;
+      if (String(course.name || "").toLowerCase().includes("eletiva")) return false;
+      if (course.extension || course.category === "extension") return false;
+      if (course.complementary || course.category === "complementary") return false;
+      return true;
+    });
+
+    // Só entram as obrigatórias que podem ser feitas agora.
+    const available = requiredCourses.filter(course => {
+      if (typeof statusForReq !== "function") return false;
+      const status = statusForReq(prerequisites[course.code]);
+      return status && status.canTake;
+    });
+
+    // Mede o impacto apenas sobre outras disciplinas obrigatórias pendentes.
+    const allRequiredPending = courses.filter(course => {
+      if (done.has(course.id)) return false;
+      if (course.special) return false;
+      if (course.elective || course.isElective || course.category === "elective") return false;
+      if (String(course.code || "").toUpperCase() === "ELETIVAS") return false;
+      if (String(course.name || "").toLowerCase().includes("eletiva")) return false;
+      if (course.extension || course.category === "extension") return false;
+      if (course.complementary || course.category === "complementary") return false;
+      return true;
+    });
+
+    const entries = available.map(course => {
+      const unlocks = allRequiredPending.filter(other => {
+        if (other.id === course.id) return false;
+
+        const req = prerequisites[other.code];
+        const prereqCodes = req && Array.isArray(req.P) ? req.P : [];
+
+        return prereqCodes.includes(course.code);
+      });
+
+      return { course, unlocks };
+    }).sort((a, b) => {
+      if (b.unlocks.length !== a.unlocks.length) {
+        return b.unlocks.length - a.unlocks.length;
+      }
+      return String(a.course.name).localeCompare(String(b.course.name), "pt-BR");
+    });
+
+    countNode.textContent = entries.length;
+    topNode.textContent = entries.length
+      ? `${entries[0].course.name} (${entries[0].unlocks.length})`
+      : "—";
+
+    if (!entries.length) {
+      list.innerHTML =
+        '<div class="critical-path-empty">Nenhuma disciplina obrigatória possível de ser feita no momento.</div>';
+      return;
+    }
+
+    list.innerHTML = entries.map(entry => {
+      const unlockCount = entry.unlocks.length;
+      const unlockedNames = entry.unlocks.map(c => c.name).join(", ");
+
+      return `
+        <div class="critical-path-item">
+          <div>
+            <div class="critical-path-name">
+              ${entry.course.name}
+              <span class="critical-path-code">${entry.course.code}</span>
+            </div>
+            <div class="critical-path-unlocks">
+              ${unlockCount
+                ? `Ao concluir, libera ${unlockCount === 1 ? "1 matéria" : unlockCount + " matérias"}: ${unlockedNames}`
+                : "Pode ser feita agora e não é pré-requisito direto de outra disciplina obrigatória pendente."}
+            </div>
+          </div>
+          <div class="critical-path-impact">
+            ${unlockCount} ${unlockCount === 1 ? "caminho" : "caminhos"}
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  window.updateCriticalPath = updateCriticalPath;
+
+  document.addEventListener("click", () => setTimeout(updateCriticalPath, 0));
+  document.addEventListener("input", () => setTimeout(updateCriticalPath, 0));
+
+  updateCriticalPath();
+})();
+</script>
+
+
+<div id="courseModalBackdrop" class="course-modal-backdrop" aria-hidden="true">
+  <div class="course-modal" role="dialog" aria-modal="true" aria-labelledby="courseModalTitle">
+    <div class="course-modal-header">
+      <div>
+        <h2 id="courseModalTitle" class="course-modal-title">Matéria</h2>
+        <div id="courseModalCode" class="course-modal-code"></div>
+      </div>
+      <button id="courseModalClose" class="modal-close" type="button" aria-label="Fechar">×</button>
+    </div>
+    <div class="course-modal-grid">
+      <div class="course-modal-field">
+        <label for="coursePlanSemester">Programar para</label>
+        <select id="coursePlanSemester">
+          <option value="">Não programada</option>
+          <option value="1º período">1º período</option><option value="2º período">2º período</option>
+          <option value="3º período">3º período</option><option value="4º período">4º período</option>
+          <option value="5º período">5º período</option><option value="6º período">6º período</option>
+          <option value="7º período">7º período</option><option value="8º período">8º período</option>
+          <option value="9º período">9º período</option><option value="10º período">10º período</option>
+          <option value="11º período">11º período</option><option value="12º período">12º período</option>
+          <option value="13º período">13º período</option><option value="14º período">14º período</option>
+          <option value="15º período">15º período</option><option value="16º período">16º período</option>
+        </select>
+      </div>
+      <div class="course-modal-field">
+        <label for="courseProfessor">Professor</label>
+        <input id="courseProfessor" type="text" placeholder="Ex.: Prof. Silva">
+      </div>
+      <div class="course-modal-field full">
+        <label>Dificuldade</label>
+        <div id="courseDifficulty" class="difficulty-row" role="radiogroup" aria-label="Dificuldade de 1 a 5">
+          <button type="button" data-value="1">1</button><button type="button" data-value="2">2</button>
+          <button type="button" data-value="3">3</button><button type="button" data-value="4">4</button>
+          <button type="button" data-value="5">5</button>
+        </div>
+      </div>
+      <div class="course-modal-field full">
+        <label for="courseNotesText">Anotações</label>
+        <textarea id="courseNotesText" placeholder="Ex.: provas difíceis, muita leitura, professor exige presença, material recomendado..."></textarea>
+      </div>
+    </div>
+    <div class="course-modal-actions">
+      <button id="courseModalClear" class="danger" type="button">Limpar planejamento e notas</button>
+      <div style="display:flex;gap:8px">
+        <button id="courseModalCancel" type="button">Cancelar</button>
+        <button id="courseModalSave" class="primary" type="button">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script id="course-planning-js">
+(function(){
+  let activeCourseId = null;
+
+  function escapeHtml(value){
+    return String(value ?? "").replace(/[&<>"']/g, ch => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    }[ch]));
+  }
+  window.escapeHtml = escapeHtml;
+
+  function openCourseModal(id){
+    const course = courses.find(c => c.id === id);
+    if (!course) return;
+    activeCourseId = id;
+    const plan = coursePlans[id] || {};
+    const note = courseNotes[id] || {};
+    document.getElementById("courseModalTitle").textContent = course.name;
+    document.getElementById("courseModalCode").textContent =
+      course.code + " · " + course.hours + " h · " + course.credits + " créditos";
+    document.getElementById("coursePlanSemester").value = plan.semester || "";
+    document.getElementById("courseProfessor").value = note.professor || "";
+    document.getElementById("courseNotesText").value = note.text || "";
+    document.querySelectorAll("#courseDifficulty button").forEach(b =>
+      b.classList.toggle("selected", Number(b.dataset.value) === Number(note.difficulty || 0))
+    );
+    const backdrop = document.getElementById("courseModalBackdrop");
+    backdrop.classList.add("open");
+    backdrop.setAttribute("aria-hidden","false");
+    document.getElementById("coursePlanSemester").focus();
+  }
+  window.openCourseModal = openCourseModal;
+
+  function closeCourseModal(){
+    const backdrop = document.getElementById("courseModalBackdrop");
+    backdrop.classList.remove("open");
+    backdrop.setAttribute("aria-hidden","true");
+    activeCourseId = null;
+  }
+
+  function selectedDifficulty(){
+    const selected = document.querySelector("#courseDifficulty button.selected");
+    return selected ? Number(selected.dataset.value) : 0;
+  }
+
+  function saveCourseModal(){
+    if (!activeCourseId) return;
+    const semester = document.getElementById("coursePlanSemester").value;
+    const professor = document.getElementById("courseProfessor").value.trim();
+    const text = document.getElementById("courseNotesText").value.trim();
+    const difficulty = selectedDifficulty();
+
+    if (semester) coursePlans[activeCourseId] = {semester};
+    else delete coursePlans[activeCourseId];
+
+    if (professor || text || difficulty) {
+      courseNotes[activeCourseId] = {professor, text, difficulty};
+    } else {
+      delete courseNotes[activeCourseId];
+    }
+
+    save();
+    render();
+    renderPlanningSummary();
+    closeCourseModal();
+  }
+
+  function clearCourseModal(){
+    if (!activeCourseId) return;
+    delete coursePlans[activeCourseId];
+    delete courseNotes[activeCourseId];
+    save();
+    render();
+    renderPlanningSummary();
+    closeCourseModal();
+  }
+
+  function renderPlanningSummary(){
+    const container = document.getElementById("planningSemesters");
+    if (!container) return;
+    const groups = {};
+    for(let i=1;i<=16;i++) groups[i+"º período"] = [];
+    courses.forEach(c => {
+      const plan = coursePlans[c.id];
+      if (plan && plan.semester && groups[plan.semester]) groups[plan.semester].push(c);
+    });
+    container.innerHTML = Object.entries(groups).map(([semester, list]) => `
+      <div class="planning-semester">
+        <h4>${semester} <span style="color:#66727f;font-weight:500">(${list.length})</span></h4>
+        ${list.length ? `<ul>${list.map(c => `<li>${escapeHtml(c.name)}</li>`).join("")}</ul>` :
+          '<div class="planning-empty">Nenhuma matéria</div>'}
+      </div>
+    `).join("");
+  }
+
+  document.getElementById("courseModalClose").addEventListener("click", closeCourseModal);
+  document.getElementById("courseModalCancel").addEventListener("click", closeCourseModal);
+  document.getElementById("courseModalSave").addEventListener("click", saveCourseModal);
+  document.getElementById("courseModalClear").addEventListener("click", clearCourseModal);
+  document.querySelectorAll("#courseDifficulty button").forEach(b => {
+    b.addEventListener("click", () => {
+      document.querySelectorAll("#courseDifficulty button").forEach(x => x.classList.remove("selected"));
+      b.classList.add("selected");
+    });
+  });
+  document.getElementById("courseModalBackdrop").addEventListener("click", e => {
+    if (e.target.id === "courseModalBackdrop") closeCourseModal();
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") closeCourseModal();
+  });
+
+  // Também permite planejar pela tecla Enter no controle "⋯", sem alterar o estado da matéria.
+  window.renderPlanningSummary = renderPlanningSummary;
+  renderPlanningSummary();
+})();
+</script>
+
+<script id="share-link-js">
+(function(){
+  const shareBtn = document.getElementById("shareBtn");
+  const shareBackdrop = document.getElementById("shareModalBackdrop");
+  const shareNameInput = document.getElementById("shareNameInput");
+  const shareLinkOutput = document.getElementById("shareLinkOutput");
+  const shareCopyBtn = document.getElementById("shareCopyBtn");
+  const shareModalClose = document.getElementById("shareModalClose");
+
+  function refreshShareLink() {
+    shareLinkOutput.value = buildShareLink(shareNameInput.value);
+  }
+
+  function openShareModal() {
+    refreshShareLink();
+    shareBackdrop.classList.add("open");
+    shareBackdrop.setAttribute("aria-hidden", "false");
+    shareLinkOutput.focus();
+    shareLinkOutput.select();
+  }
+
+  function closeShareModal() {
+    shareBackdrop.classList.remove("open");
+    shareBackdrop.setAttribute("aria-hidden", "true");
+  }
+
+  shareBtn.addEventListener("click", openShareModal);
+  shareModalClose.addEventListener("click", closeShareModal);
+  shareBackdrop.addEventListener("click", e => {
+    if (e.target.id === "shareModalBackdrop") closeShareModal();
+  });
+  shareNameInput.addEventListener("input", refreshShareLink);
+  shareLinkOutput.addEventListener("click", () => shareLinkOutput.select());
+
+  shareCopyBtn.addEventListener("click", () => {
+    shareLinkOutput.select();
+    shareLinkOutput.setSelectionRange(0, shareLinkOutput.value.length);
+    let copied = false;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(shareLinkOutput.value).then(() => {}).catch(() => {});
+      copied = true;
+    } else {
+      try { document.execCommand("copy"); copied = true; } catch(e) {}
+    }
+    shareCopyBtn.textContent = copied ? "Link copiado!" : "Copiar link";
+    setTimeout(() => { shareCopyBtn.textContent = "Copiar link"; }, 1800);
+  });
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") closeShareModal();
+  });
+
+  // Banner de planejamento compartilhado
+  const importBtn = document.getElementById("sharedImportBtn");
+  const dismissBtn = document.getElementById("sharedDismissBtn");
+  const banner = document.getElementById("sharedBanner");
+
+  if (importBtn) {
+    importBtn.addEventListener("click", () => {
+      if (!confirm("Isso vai substituir o seu planejamento salvo neste navegador pelo planejamento compartilhado. Deseja continuar?")) return;
+      isViewingSharedLink = false;
+      save();
+      clearShareHash();
+      banner.style.display = "none";
+      render();
+      if (window.renderPlanningSummary) window.renderPlanningSummary();
+      if (window.updateCriticalPath) window.updateCriticalPath();
+    });
+  }
+
+  if (dismissBtn) {
+    dismissBtn.addEventListener("click", () => {
+      clearShareHash();
+      location.reload();
+    });
+  }
 })();
 </script>
 
